@@ -5,45 +5,62 @@ class Game {
         this.as = "arda";
         this.animalUrl = ["bird.png", "dog.png", "fish.png",
             "fish1.png", "fish2.png", "fox.png",
-            "horse.png", "kartPng.png", "kartPng1.png",
-            "buttonBg.png", "arkaPlanButton.jpg", "click.mp3"
+            "horse.png"
         ];
 
 
         this.loader = new LoaderConfig(this.app, "assets", "images");
 
         this.loader.topluDosyaEkleme(this.animalUrl, "images", "res");
-        //this.loader.topluDosyaEkleme(this.musicUrl, "sounds", "music");
-
         this.loader.tekDosyaEkle("click.mp3", "sounds", "click");
         this.loader.tekDosyaEkle("alkisKisa.mp3", "sounds", "alkis");
         this.loader.tekDosyaEkle("yanlis.mp3", "sounds", "yanlis");
         this.loader.tekDosyaEkle("dogru.mp3", "sounds", "dogru");
-
-        this.app.loader.onComplete.add((e) => this.doneLoading(e));
-        this.app.loader.load();
+        this.loader.tekDosyaEkle("buttonBg.png", "images", "kartPng");
+        this.loader.tekDosyaEkle("buttonBg.png", "images", "buttonPng");
+        this.loader.tekDosyaEkle("bg.png", "images", "bg");
 
         this.kartContainer = new PIXI.Container();
         this.buttonContainer = new PIXI.Container();
+        this.progressBarBox = new kutu(450, 400, 500, 100, 0x000000, false, 1);
+        this.progressBarText = newText("Oyun Yükleniyor % ", 40, this.progressBarBox);
+        this.progressBarBox.addChild(this.progressBarText);
+        this.app.stage.addChild(this.progressBarBox);
+
+        this.app.loader.onComplete.add((e) => this.doneLoading(e));
+        this.app.loader.onProgress.add((e) => this.showProgress(e));
+        this.app.loader.load();
+
+
         this.aktifKapak = null;
     }
-
+    showProgress(e) {
+        console.log(this.progressBarText.children[0].text);
+        this.progressBarText.children[0].text = "Oyun Yükleniyor %" + Math.floor(e.progress);
+        console.log(e.progress);
+    }
     sesCal(sesEtiketi) {
         this.app.loader.resources[sesEtiketi].sound.play();
     }
     doneLoading(e) {
 
-
+        this.progressBarBox.visible = false;
+        bgSprite = new PIXI.Sprite.from(this.app.loader.resources["bg"].texture);
+        bgSprite.width = screenWidth;
+        bgSprite.height = screenHeight;
+        this.app.stage.addChild(bgSprite);
         console.log("All DONE LOADİNG");
         this.createButton();
+        this.startGame(2, 2);
+
 
     }
     createButton() {
-        let kutucuk22 = new kutu(0, 0, 200, 100, 0XA7C6ED, false, 0.7, this.app.loader.resources["res11"].texture);
+        let kutucuk22 = new kutu(0, 0, 200, 100, 0Xffffff, false, 0.5, this.app.loader.resources["buttonPng"].texture);
         kutucuk22.addChild(newText("2 X 2", 50, kutucuk22));
-        let kutucuk24 = new kutu(0, 120, 200, 100, 0XA7C6ED, false, 0.7, this.app.loader.resources["res11"].texture);
+        let kutucuk24 = new kutu(0, 120, 200, 100, 0XA7C6ED, false, 0.5, this.app.loader.resources["buttonPng"].texture);
         kutucuk24.addChild(newText("2 X 4", 50, kutucuk24));
-        let kutucuk34 = new kutu(0, 240, 200, 100, 0XA7C6ED, false, 0.7, this.app.loader.resources["res11"].texture);
+        let kutucuk34 = new kutu(0, 240, 200, 100, 0XA7C6ED, false, 0.5, this.app.loader.resources["buttonPng"].texture);
         kutucuk34.addChild(newText("3 X 4", 50, kutucuk34));
         kutucuk22.interactive = true;
         kutucuk24.interactive = true;
@@ -106,7 +123,7 @@ class Game {
                 this.idlist = this.idlist.filter((item, index) => index != random);
                 console.log("Sonra:", this.idlist)
                 console.log("random", random, "id:", id, );
-                let kutucuk = new kutu(konumX, konumY, 200, 200, 0XA7C6ED, false, 1, this.app.loader.resources[`res9`].texture, id, this.app.loader.resources[`res${id}`].texture);
+                let kutucuk = new kutu(konumX, konumY, 200, 200, 0XA7C6ED, false, 1, this.app.loader.resources["kartPng"].texture, id, this.app.loader.resources[`res${id}`].texture);
 
 
 

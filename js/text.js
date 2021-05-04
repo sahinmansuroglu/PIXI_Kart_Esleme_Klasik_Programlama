@@ -1,10 +1,10 @@
 function newText(icindekiYazi, boyut, container = null) {
-    textContainer = new PIXI.Container();
+    const textContainer = new PIXI.Container();
     let style = new PIXI.TextStyle({
         fontFamily: "Arial",
         fontSize: boyut,
         fill: "white",
-        stroke: '#F1A7DC',
+        stroke: '#C8D8EB',
         strokeThickness: 3,
         dropShadow: true,
         dropShadowColor: "#000000",

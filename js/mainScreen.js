@@ -10,19 +10,19 @@ window.onload = function() {
     app = new PIXI.Application({
         width: screenWidth,
         height: screenHeight,
-        backgroundColor: 0xFFFFFF,
+        backgroundColor: 0x000000,
         view: canvas,
         antialias: true
     });
     window.addEventListener('resize', resize);
 
-    bgSprite = new PIXI.Sprite.from("assets/images/bg.png");
-    bgSprite.width = screenWidth;
-    bgSprite.height = screenHeight;
+    //bgSprite = new PIXI.Sprite.from("assets/images/bg.png");
+    // bgSprite.width = screenWidth;
+    //bgSprite.height = screenHeight;
 
     new Game(app);
 
-    app.stage.addChild(bgSprite);
+    //app.stage.addChild(bgSprite);
     resize();
 
 }
