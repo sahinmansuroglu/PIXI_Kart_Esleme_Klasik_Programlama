@@ -33,6 +33,7 @@ class Game {
 
 
         this.aktifKapak = null;
+        this.test = null;
     }
     showProgress(e) {
         console.log(this.progressBarText.children[0].text);
@@ -57,6 +58,9 @@ class Game {
     }
     createButton() {
         let kutucuk22 = new kutu(0, 0, 200, 100, 0Xffffff, false, 0.5, this.app.loader.resources["buttonPng"].texture);
+
+        //applyDropShadow(kutucuk22.children[0]);
+        //console.log("Kutuv:", kutucuk22.children[0]);
         kutucuk22.addChild(newText("2 X 2", 50, kutucuk22));
         let kutucuk24 = new kutu(0, 120, 200, 100, 0XA7C6ED, false, 0.5, this.app.loader.resources["buttonPng"].texture);
         kutucuk24.addChild(newText("2 X 4", 50, kutucuk24));
@@ -131,28 +135,32 @@ class Game {
                 kutucuk.on("pointerdown", (e) => {
                     this.sesCal("click");
                     const target = e.currentTarget;
-                    target.image.visible = false;
-                    if (this.aktifKapak == null) {
+                    if (this.test == null) {
+                        target.image.visible = false;
 
-                        this.aktifKapak = target;
-                    } else {
+                        if (this.aktifKapak == null) {
 
+                            this.aktifKapak = target;
 
-
-                        //Eşleme Yapılmıssa if blogu çalışır
-                        if (target.value == this.aktifKapak.value) {
-                            setTimeout(this.sil.bind(this), 500, this.kartContainer, this.aktifKapak, target);
-
-                            console.log("Tamamdırrrrr.");
                         } else {
-                            setTimeout(this.eskiDurumaDon.bind(this), 1000, target.image, this.aktifKapak.image);
+                            this.acikResim = 0;
+                            this.test = 1;
+                            //Eşleme Yapılmıssa if blogu çalışır
+                            if (target.value == this.aktifKapak.value) {
 
+                                setTimeout(this.sil.bind(this), 500, this.kartContainer, this.aktifKapak, target);
+
+                                console.log("Tamamdırrrrr.");
+
+                            } else {
+                                setTimeout(this.eskiDurumaDon.bind(this), 1000, target.image, this.aktifKapak.image);
+
+                            }
+
+                            this.aktifKapak = null;
                         }
 
-                        this.aktifKapak = null;
                     }
-
-
                 });
                 this.kartContainer.addChild(kutucuk);
 
@@ -171,6 +179,9 @@ class Game {
         im1.visible = true;
         im2.visible = true;
         this.sesCal("yanlis");
+
+        this.test = null;
+
     }
 
     sil(container, aktif, pasif) {
@@ -180,6 +191,7 @@ class Game {
         console.log(this.kartContainer.children.length);
         if (this.kartContainer.children.length == 0)
             this.sesCal("alkis");
+        this.test = null;
     }
 
 
