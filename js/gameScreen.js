@@ -6,9 +6,19 @@ class Game {
         this.animalUrl = ["bird.png", "dog.png", "fish.png",
             "fish1.png", "fish2.png", "fox.png",
             "horse.png", "kartPng.png", "kartPng1.png",
-            "buttonBg.png", "arkaPlanButton.jpg"
+            "buttonBg.png", "arkaPlanButton.jpg", "click.mp3"
         ];
-        this.dd = new LoaderConfig(this.app, this.animalUrl, "images");
+
+
+        this.loader = new LoaderConfig(this.app, "assets", "images");
+
+        this.loader.topluDosyaEkleme(this.animalUrl, "images", "res");
+        //this.loader.topluDosyaEkleme(this.musicUrl, "sounds", "music");
+
+        this.loader.tekDosyaEkle("click.mp3", "sounds", "click");
+        this.loader.tekDosyaEkle("alkisKisa.mp3", "sounds", "alkis");
+        this.loader.tekDosyaEkle("yanlis.mp3", "sounds", "yanlis");
+        this.loader.tekDosyaEkle("dogru.mp3", "sounds", "dogru");
 
         this.app.loader.onComplete.add((e) => this.doneLoading(e));
         this.app.loader.load();
@@ -17,7 +27,12 @@ class Game {
         this.buttonContainer = new PIXI.Container();
         this.aktifKapak = null;
     }
+
+    sesCal(sesEtiketi) {
+        this.app.loader.resources[sesEtiketi].sound.play();
+    }
     doneLoading(e) {
+
 
         console.log("All DONE LOADİNG");
         this.createButton();
@@ -76,6 +91,8 @@ class Game {
         conatiner.removeChild(conatiner.children[index]);
     }
     startGame(satir, sutun) {
+        this.sesCal("click");
+
         this.idlist = this.listeOlustur(satir * sutun);
         let konumX = 0;
         let konumY = 0;
@@ -95,6 +112,7 @@ class Game {
 
                 kutucuk.interactive = true;
                 kutucuk.on("pointerdown", (e) => {
+                    this.sesCal("click");
                     const target = e.currentTarget;
                     target.image.visible = false;
                     if (this.aktifKapak == null) {
@@ -106,16 +124,17 @@ class Game {
 
                         //Eşleme Yapılmıssa if blogu çalışır
                         if (target.value == this.aktifKapak.value) {
-                            setTimeout(this.sil, 1000, this.kartContainer, this.aktifKapak, target);
+                            setTimeout(this.sil.bind(this), 500, this.kartContainer, this.aktifKapak, target);
 
                             console.log("Tamamdırrrrr.");
                         } else {
-                            setTimeout(this.eskiDurumaDon, 1000, target.image, this.aktifKapak.image);
+                            setTimeout(this.eskiDurumaDon.bind(this), 1000, target.image, this.aktifKapak.image);
 
                         }
 
                         this.aktifKapak = null;
                     }
+
 
                 });
                 this.kartContainer.addChild(kutucuk);
@@ -131,14 +150,19 @@ class Game {
         this.app.stage.addChild(this.kartContainer);
         console.log(this.kartContainer.children.length);
     }
-    eskiDurumaDon(im1, im2) {
+    eskiDurumaDon(im1, im2, player) {
         im1.visible = true;
         im2.visible = true;
+        this.sesCal("yanlis");
     }
 
     sil(container, aktif, pasif) {
         container.removeChild(aktif);
         container.removeChild(pasif);
+        this.sesCal("dogru");
+        console.log(this.kartContainer.children.length);
+        if (this.kartContainer.children.length == 0)
+            this.sesCal("alkis");
     }
 
 

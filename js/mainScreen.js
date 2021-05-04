@@ -16,7 +16,7 @@ window.onload = function() {
     });
     window.addEventListener('resize', resize);
 
-    bgSprite = new PIXI.Sprite.from("images/bg.png");
+    bgSprite = new PIXI.Sprite.from("assets/images/bg.png");
     bgSprite.width = screenWidth;
     bgSprite.height = screenHeight;
 
