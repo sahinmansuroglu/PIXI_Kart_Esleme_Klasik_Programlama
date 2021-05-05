@@ -39,12 +39,11 @@ class Game {
         this.test = null;
 
         this.animationObject = null;
-        this.animationObject1 = null;
+
         this.ticker = PIXI.Ticker.shared;
-        this.app.ticker.add(this.gameLoop.bind(this));
-        this.animationState = this.bostaBekle;
+        this.animationState = this.play();
         this.ticker.autoStart = false;
-        this.rotationTick = 0;
+
         //console.log(this.app.ticker);
 
         // this.app.ticker.stop();
@@ -60,56 +59,19 @@ class Game {
     bostaBekle(delta) {
 
     }
-    play(delta) {
+    play(delta, kale) {
+
+        //Burada kaldın şahin animation state çalışıyor
         console.log("Burası okkkkkkkkkk");
-        if (this.animationObject != null) {
-            this.rotationTick++;
-            this.animationObject.alpha -= 1 / 12;
-            if (this.rotationTick == 12) {
-                this.rotationTick = 0;
-                this.animationState = this.bostaBekle;
-                // this.animationObject = null;
-            }
-
-        }
-    }
-
-    donerekOrtayaCik(delta) {
-
-        this.animationObject.alpha += (1 / 12);
-        this.animationObject1.alpha += (1 / 12);
-        //console.log((this.animationObject.rotation * 180) / Math.PI);
-        this.animationObject.rotation += (Math.PI / 180) * delta * 30;
-        this.animationObject1.rotation += (Math.PI / 180) * delta * 30;
-        console.log("1");
-        this.rotationTick++;
-        if (this.rotationTick == 12) {
-            this.rotationTick = 0;
-            this.animationState = this.bostaBekle;
-        }
+        //Move the cat 1 pixel to the right each frame
+        // if (this.animationObject != null) {
+        //     this.animationObject.alpha -= 0.01;
+        // }
+        //  // console.log(this.kartContainer.children[0].width)
+        // if (this.kartContainer.children[0].width > 600)
+        //      this.animationState = this.bostaBekle();
 
     }
-
-    buyuyerekOrtadanKaybol(delta) {
-        this.animationObject.alpha += (1 / 12);
-        this.animationObject1.alpha += (1 / 12);
-        //console.log((this.animationObject.rotation * 180) / Math.PI);
-        this.animationObject.rotation += (Math.PI / 180) * delta * 30;
-        this.animationObject1.rotation += (Math.PI / 180) * delta * 30;
-        console.log("1");
-        this.rotationTick++;
-        if (this.rotationTick == 12) {
-            this.rotationTick = 0;
-            this.removeChild(this.animationObject);
-            this.removeChild(this.animationObject1);
-            this.animationState = this.bostaBekle;
-        }
-
-
-    }
-
-
-
     showProgress(e) {
         // console.log(this.progressBarText.children[0].text);
         this.progressBarText.children[0].text = "Oyun Yükleniyor %" + Math.floor(e.progress);
@@ -210,13 +172,18 @@ class Game {
                 kutucuk.on("pointerdown", (e) => {
                     this.sesCal("click");
                     const target = e.currentTarget;
-
+                    this.animationObject = target;
                     if (this.test == null) {
 
 
-
-                        this.animationObject = target.image;
                         this.animationState = this.play;
+                        this.app.ticker.add(this.gameLoop.bind(this));
+
+                        //this.app.ticker.stop();
+                        //console.log("Kart Container:", this.kartContainer.getChildAt(0));
+
+                        //this.app.ticker.stop();
+                        target.image.visible = false;
 
                         if (this.aktifKapak == null) {
 
@@ -228,8 +195,9 @@ class Game {
                             //Eşleme Yapılmıssa if blogu çalışır
                             if (target.value == this.aktifKapak.value) {
 
-                                setTimeout(this.sil.bind(this), 1000, this.kartContainer, this.aktifKapak, target);
+                                setTimeout(this.sil.bind(this), 500, this.kartContainer, this.aktifKapak, target);
 
+                                // console.log("Tamamdırrrrr.");
 
                             } else {
                                 setTimeout(this.eskiDurumaDon.bind(this), 1000, target.image, this.aktifKapak.image);
@@ -255,26 +223,17 @@ class Game {
         //  console.log(this.kartContainer.children.length);
     }
     eskiDurumaDon(im1, im2, player) {
-        //im1.alpha = 1;
-        //im2.alpha = 1;
-        this.animationState = this.bostaBekle;
+        im1.visible = true;
+        im2.visible = true;
         this.sesCal("yanlis");
 
-        this.animationObject1 = im2;
-
-        this.animationObject = im1;
-        this.animationState = this.donerekOrtayaCik;
         this.test = null;
 
     }
 
     sil(container, aktif, pasif) {
-
-        this.animationObject1 = aktif;
-        this.animationObject = pasif;
-        this.animationState = this.buyuyerekOrtadanKaybol;
-
-
+        container.removeChild(aktif);
+        container.removeChild(pasif);
         this.sesCal("dogru");
         //  console.log(this.kartContainer.children.length);
         if (this.kartContainer.children.length == 0)

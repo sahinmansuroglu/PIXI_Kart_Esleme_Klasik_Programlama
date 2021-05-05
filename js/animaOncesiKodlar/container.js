@@ -19,10 +19,8 @@ class kutu extends PIXI.Container {
             this.imageGercek = new PIXI.Sprite.from(ciftResim);
             this.imageGercek.x = 0;
             this.imageGercek.y = 0;
-
             this.imageGercek.width = genislik;
             this.imageGercek.height = yukseklik;
-            this.merkezNoktasiniDegistir(this.imageGercek)
             this.imageGercek.alpha = opacity;
             this.imageGercek.zIndex = 2;
             this.addChild(this.imageGercek);
@@ -34,7 +32,7 @@ class kutu extends PIXI.Container {
             this.image.y = 0;
             this.image.width = genislik;
             this.image.height = yukseklik;
-            this.merkezNoktasiniDegistir(this.image)
+
             this.image.alpha = opacity;
             this.image.zIndex = 1;
             this.addChild(this.image);
@@ -61,10 +59,6 @@ class kutu extends PIXI.Container {
     get alt() {
         return this.y + this.height;
     }
-    merkezNoktasiniDegistir(objec) {
-        objec.anchor.set(0.5);
-        objec.x = objec.x + objec.width / 2;
-        objec.y = objec.y + objec.height / 2;
-    }
+
 
 }
