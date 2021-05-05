@@ -161,6 +161,12 @@ class Game {
         conatiner.removeChild(conatiner.children[index]);
     }
     startGame(satir, sutun) {
+        this.aktifKapak = null;
+        this.test = null;
+        this.animationObject = null;
+        this.animationObject1 = null;
+        this.rotationTick = 0;
+        this.animationState = this.bostaBekle;
         this.sesCal("click");
 
         this.idlist = this.listeOlustur(satir * sutun);
