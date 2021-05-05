@@ -79,8 +79,8 @@ class Game {
         this.animationObject.alpha += (1 / 12);
         this.animationObject1.alpha += (1 / 12);
         //console.log((this.animationObject.rotation * 180) / Math.PI);
-        this.animationObject.rotation += (Math.PI / 180) * delta * 30;
-        this.animationObject1.rotation += (Math.PI / 180) * delta * 30;
+        this.animationObject.rotation += (Math.PI / 180)  * 30;
+        this.animationObject1.rotation += (Math.PI / 180) * 30;
         console.log("1");
         this.rotationTick++;
         if (this.rotationTick == 12) {
@@ -94,8 +94,8 @@ class Game {
         this.animationObject.alpha += (1 / 12);
         this.animationObject1.alpha += (1 / 12);
         //console.log((this.animationObject.rotation * 180) / Math.PI);
-        this.animationObject.rotation += (Math.PI / 180) * delta * 30;
-        this.animationObject1.rotation += (Math.PI / 180) * delta * 30;
+        this.animationObject.rotation += (Math.PI / 180)  * 30;
+        this.animationObject1.rotation += (Math.PI / 180)  * 30;
         console.log("1");
         this.rotationTick++;
         if (this.rotationTick == 12) {
