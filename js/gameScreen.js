@@ -102,6 +102,7 @@ class Game {
             this.rotationTick = 0;
             this.removeChild(this.animationObject);
             this.removeChild(this.animationObject1);
+            this.sesCal("alkis");
             this.animationState = this.bostaBekle;
         }
 
