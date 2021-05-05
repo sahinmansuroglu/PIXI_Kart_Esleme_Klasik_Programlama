@@ -3,25 +3,7 @@ class Game {
     constructor(app) {
         this.app = app;
         this.as = "arda";
-        this.animalUrl = ["bird.png", "dog.png", "fish.png",
-            "fish1.png", "fish2.png", "fox.png",
-            "horse.png"
-        ];
-        // this.animalUrl = ["1.jpg", "2.jpg", "3.jpg",
-        //     "4.jpg", "5.jpg", "6.jpg",
 
-        // ];
-        this.tween = null;
-        this.loader = new LoaderConfig(this.app, "assets", "images");
-
-        this.loader.topluDosyaEkleme(this.animalUrl, "images", "res");
-        this.loader.tekDosyaEkle("click.mp3", "sounds", "click");
-        this.loader.tekDosyaEkle("alkisKisa.mp3", "sounds", "alkis");
-        this.loader.tekDosyaEkle("yanlis.mp3", "sounds", "yanlis");
-        this.loader.tekDosyaEkle("dogru.mp3", "sounds", "dogru");
-        this.loader.tekDosyaEkle("buttonBg.png", "images", "kartPng");
-        this.loader.tekDosyaEkle("buttonBg.png", "images", "buttonPng");
-        this.loader.tekDosyaEkle("bg.png", "images", "bg");
 
         this.kartContainer = new PIXI.Container();
         this.buttonContainer = new PIXI.Container();
@@ -29,7 +11,7 @@ class Game {
         this.progressBarText = newText("Oyun Yükleniyor % ", 40, this.progressBarBox);
         this.progressBarBox.addChild(this.progressBarText);
         this.app.stage.addChild(this.progressBarBox);
-
+        loaderFileList(app);
         this.app.loader.onComplete.add((e) => this.doneLoading(e));
         this.app.loader.onProgress.add((e) => this.showProgress(e));
         this.app.loader.load();
@@ -45,30 +27,23 @@ class Game {
         this.animationState = this.bostaBekle;
         this.ticker.autoStart = false;
         this.rotationTick = 0;
-        //console.log(this.app.ticker);
-
-        // this.app.ticker.stop();
 
     }
+
+
     gameLoop(delta) {
-        //console.log("Burası okkkkkkkkkk222222222");
-        //Update the current game state:;
         this.animationState(delta);
-        //console.log("deger ", this.degisken);
-        // this.kartContainer.children[0].x += 1;
     }
-    bostaBekle(delta) {
-
-    }
+    bostaBekle(delta) {}
     play(delta) {
-        console.log("Burası okkkkkkkkkk");
+
         if (this.animationObject != null) {
             this.rotationTick++;
             this.animationObject.alpha -= 1 / 12;
             if (this.rotationTick == 12) {
                 this.rotationTick = 0;
                 this.animationState = this.bostaBekle;
-                // this.animationObject = null;
+
             }
 
         }
@@ -78,10 +53,8 @@ class Game {
 
         this.animationObject.alpha += (1 / 12);
         this.animationObject1.alpha += (1 / 12);
-        //console.log((this.animationObject.rotation * 180) / Math.PI);
-        this.animationObject.rotation += (Math.PI / 180)  * 30;
+        this.animationObject.rotation += (Math.PI / 180) * 30;
         this.animationObject1.rotation += (Math.PI / 180) * 30;
-        console.log("1");
         this.rotationTick++;
         if (this.rotationTick == 12) {
             this.rotationTick = 0;
@@ -89,22 +62,21 @@ class Game {
         }
 
     }
-
     buyuyerekOrtadanKaybol(delta) {
         this.animationObject.alpha += (1 / 12);
         this.animationObject1.alpha += (1 / 12);
-        //console.log((this.animationObject.rotation * 180) / Math.PI);
-        this.animationObject.rotation += (Math.PI / 180)  * 30;
-        this.animationObject1.rotation += (Math.PI / 180)  * 30;
-        console.log("1");
+
+        this.animationObject.rotation += (Math.PI / 180) * delta * 30;
+        this.animationObject1.rotation += (Math.PI / 180) * delta * 30;
+
         this.rotationTick++;
         if (this.rotationTick == 12) {
             this.rotationTick = 0;
-            this.removeChild(this.animationObject);
-            this.removeChild(this.animationObject1);
-            if (this.kartContainer.children.length == 0)
-            this.sesCal("alkis");
+            this.kartContainer.removeChild(this.animationObject);
+            this.kartContainer.removeChild(this.animationObject1);
             this.animationState = this.bostaBekle;
+            if (this.kartContainer.children.length == 0)
+                this.sesCal("alkis");
         }
 
 
@@ -279,8 +251,7 @@ class Game {
 
         this.sesCal("dogru");
         //  console.log(this.kartContainer.children.length);
-        if (this.kartContainer.children.length == 0)
-            this.sesCal("alkis");
+
         this.test = null;
     }
 
